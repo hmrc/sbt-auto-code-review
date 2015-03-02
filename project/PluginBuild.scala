@@ -22,7 +22,6 @@ object PluginBuild extends Build {
 
   val pluginName = "sbt-auto-code-review"
   val pluginVersion = "0.2.0-SNAPSHOT"
-  val pluginOrganization = "HMRC"
 
   val appDependencies = Seq(
     "org.brianmckenna" % "sbt-wartremover" % "0.11"
