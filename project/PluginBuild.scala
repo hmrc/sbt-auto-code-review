@@ -23,19 +23,19 @@ object PluginBuild extends Build {
   val pluginName = "sbt-auto-code-review"
   val pluginVersion = "0.2.0-SNAPSHOT"
 
-  val appDependencies = Seq(
-    "org.brianmckenna" % "sbt-wartremover" % "0.11"
-  )
-
   lazy val orderIdEncoder = Project(pluginName, file("."))
     .settings(scalaSettings: _*)
     .settings(
       version := pluginVersion,
       sbtPlugin := true,
       targetJvm := "jvm-1.7",
-      libraryDependencies ++= appDependencies,
       scalaVersion := "2.10.4",
       organization := "uk.gov.hmrc",
+      resolvers ++= Seq(
+        Opts.resolver.sonatypeReleases,
+        Opts.resolver.sonatypeSnapshots
+      ),
+      crossScalaVersions := Seq("2.11.5"),
       addSbtPlugin("org.brianmckenna" % "sbt-wartremover" % "0.11")
     )
     .settings(SbtBuildInfo(): _*)
