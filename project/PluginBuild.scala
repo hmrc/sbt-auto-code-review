@@ -15,20 +15,13 @@
  */
 import sbt.Keys._
 import sbt._
-import bintray.Plugin._
-import bintray.Keys._
 import uk.gov.hmrc.DefaultBuildSettings._
 import uk.gov.hmrc.SbtBuildInfo
 
 object PluginBuild extends Build {
 
   val pluginName = "sbt-auto-code-review"
-  val pluginVersion = "0.1.0"
-  val pluginOrganization = "HMRC"
-
-  val appDependencies = Seq(
-    "org.brianmckenna" % "sbt-wartremover" % "0.11"
-  )
+  val pluginVersion = "0.2.0-SNAPSHOT"
 
   lazy val orderIdEncoder = Project(pluginName, file("."))
     .settings(scalaSettings: _*)
@@ -36,34 +29,27 @@ object PluginBuild extends Build {
       version := pluginVersion,
       sbtPlugin := true,
       targetJvm := "jvm-1.7",
-      libraryDependencies ++= appDependencies,
       scalaVersion := "2.10.4",
-      organization := pluginOrganization)
+      organization := "uk.gov.hmrc",
+      crossScalaVersions := Seq("2.11.5"),
+      addSbtPlugin("org.brianmckenna" %% "sbt-wartremover" % "0.11")
+    )
     .settings(SbtBuildInfo(): _*)
-    .settings(bintrayPublishSettings: _*)
-    .settings(bintraySettings: _*)
+    .settings(BintraySettings(Some("HMRC")): _*)
     .settings(BuildDescriptionSettings(): _*)
-
-  val bintraySettings = Seq (
-    publishMavenStyle := false,
-    repository in bintray := "releases",
-    bintrayOrganization in bintray := Some(pluginOrganization),
-    licenses += "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
-  )
-
 }
 
-object Dependencies {
+object BintraySettings {
 
-  object Compile {
-  }
+  import bintray.Plugin._
+  import bintray.Keys._
 
-  sealed abstract class Test(scope: String) {
-    val scalaTest = "org.scalatest" %% "scalatest" % "2.2.0" % scope
-  }
-
-  object Test extends Test("test")
-
+  def apply(org : Option[String]) = bintrayPublishSettings ++ Seq (
+    publishMavenStyle := false,
+    repository in bintray := "releases",
+    bintrayOrganization in bintray := org,
+    licenses += "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
+  )
 }
 
 object BuildDescriptionSettings {
@@ -77,9 +63,9 @@ object BuildDescriptionSettings {
         </license>
       </licenses>
       <scm>
-        <connection>scm:git@github.com:hmrc/bobby.git</connection>
-        <developerConnection>scm:git@github.com:hmrc/bobby.git</developerConnection>
-        <url>git@github.com:hmrc/bobby.git</url>
+        <connection>scm:git@github.com:hmrc/sbt-auto-code-review.git</connection>
+        <developerConnection>scm:git@github.com:hmrc/sbt-auto-code-review.git</developerConnection>
+        <url>git@github.com:hmrc/sbt-auto-code-review.git</url>
       </scm>
       <developers>
         <developer>
