@@ -31,15 +31,11 @@ object PluginBuild extends Build {
       targetJvm := "jvm-1.7",
       scalaVersion := "2.10.4",
       organization := "uk.gov.hmrc",
-      resolvers ++= Seq(
-        Opts.resolver.sonatypeReleases,
-        Opts.resolver.sonatypeSnapshots
-      ),
       crossScalaVersions := Seq("2.11.5"),
-      addSbtPlugin("org.brianmckenna" % "sbt-wartremover" % "0.11")
+      addSbtPlugin("org.brianmckenna" %% "sbt-wartremover" % "0.11")
     )
     .settings(SbtBuildInfo(): _*)
-    .settings(BintraySettings(): _*)
+    .settings(BintraySettings(Some("HMRC")): _*)
     .settings(BuildDescriptionSettings(): _*)
 }
 
@@ -48,7 +44,7 @@ object BintraySettings {
   import bintray.Plugin._
   import bintray.Keys._
 
-  def apply(org : Option[String] = Some("HMRC")) = bintrayPublishSettings ++ Seq (
+  def apply(org : Option[String]) = bintrayPublishSettings ++ Seq (
     publishMavenStyle := false,
     repository in bintray := "releases",
     bintrayOrganization in bintray := org,
