@@ -32,7 +32,7 @@ object PluginBuild extends Build {
       scalaVersion := "2.10.4",
       organization := "uk.gov.hmrc",
       crossScalaVersions := Seq("2.11.5"),
-      addSbtPlugin("org.brianmckenna" % "sbt-wartremover" % "0.11" cross CrossVersion.full)
+      addSbtPlugin("org.brianmckenna" %% "sbt-wartremover" % "0.11")
     )
     .settings(SbtBuildInfo(): _*)
     .settings(BintraySettings(Some("HMRC")): _*)
