@@ -10,5 +10,7 @@ notifications:
   email:
     recipients:
     - charles.kubicek@digital.hmrc.gov.uk
+    on_success: change
+    on_failure: always
 #after_success:
 #- '[[ $TRAVIS_BRANCH == "master" ]] && { sbt publish; };'
